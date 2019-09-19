@@ -7,10 +7,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/night.css';
 import './css/style.css';
 
-App.route('/', (context: any) => {
+App.start().then(() => {
   App.mount(
     React.createElement(Home, { }, [])
   );
+
+  App.route('/', (context: any) => {
+    App.mount(
+      React.createElement(Home, { }, [])
+    );
+  });
+
 });
 
-App.start();
