@@ -31,11 +31,32 @@ export function request<Path extends keyof API> (url: Path, data?: API[Path]['PO
   return client.post(url, data);
 }
 
+let content: { [Identifier: string]: string };
+
+function loadCopy() :Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/copy.json');
+    xhr.send();
+    xhr.onload = () => {
+      content = JSON.parse(xhr.response);
+      resolve();
+    };
+    xhr.onerror = () => {
+      reject();
+    };
+  });
+}
+
+export function c(name: string) :string {
+  return content[name];
+}
+
 export function start() :Promise<void[]> {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-  return Promise.all([page()]);
+  return Promise.all([loadCopy(), page()]);
 }
 
 export function route(path: string, fn: (context: any) => void) {
