@@ -11,8 +11,8 @@ STATIC_FILES=index.html
 install:
 	node --version
 	npm --version
-	yarn --version
-	yarn install
+	#yarn --version
+	#yarn install
 
 static: $(addprefix $(STATIC_BUILD_DIR)/, $(STATIC_FILES)) $(STATIC_BUILD_DIR)/bundle.js
 
