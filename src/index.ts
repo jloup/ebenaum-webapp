@@ -8,15 +8,12 @@ import './css/night.css';
 import './css/style.css';
 
 App.start().then(() => {
-  App.mount(
-    React.createElement(Home, { }, [])
-  );
-
   App.route('/', (context: any) => {
     App.mount(
       React.createElement(Home, { }, [])
     );
   });
 
+  App.go(location.pathname);
 });
 
