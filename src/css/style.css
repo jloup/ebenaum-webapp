@@ -1,0 +1,354 @@
+@charset "UTF-8";
+
+@media screen and (max-width: 800px) {
+  .ability-branch.full {
+    display: block;
+  }
+
+  .ability-branch.full .level {
+    display: inline-block;
+  }
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  font-family: 'Spectral', serif;
+  font-weight: 400;
+  font-size: 1.2em;
+}
+
+#root {
+  height: 100%;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
+}
+
+a:focus {
+  color: inherit;
+}
+
+input[type=text], textarea {
+  border: none;
+  box-shadow: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  outline: none;
+  border-bottom: solid 2px black;
+  padding: 5px;
+  font-family: 'Spectral', serif;
+  font-weight: 400;
+  font-size: 1.2em;
+  resize: none;
+}
+
+.q-response-text {
+}
+
+input.q-response-text {
+  margin-bottom: 10px;
+}
+
+.q-text {
+  position: relative;
+  right: 11px;
+}
+
+.q-select {
+  display: table;
+  margin-bottom: 10px;
+  border-collapse: separate;
+  border-spacing: 5px;
+}
+
+.q-select ul {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.q-response-select {
+  padding: 0;
+}
+
+.q-response-select > :last-child {
+  margin-bottom: 0;
+}
+
+.q-response-select .input-select-choice {
+  position: relative;
+  border: solid 4px black;
+  padding: 10px 0px 10px 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 50px;
+  max-width: 500px;
+}
+
+.q-response-select .input-select-choice:before {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 2px solid #000000;
+}
+
+.q-response-select .input-select-choice .description {
+  padding-left: 10px;
+  font-size: 0.9em;
+  margin-top: 5px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.description.hidden {
+  display: none;
+}
+
+.q-response-select .input-select-choice.disabled {
+  opacity: 0.3;
+}
+
+.q-response-select .input-select-choice.active {
+  cursor: pointer;
+}
+
+.q-response-select .input-select-choice.active:hover {
+  border: solid 4px black;
+  background-color: black;
+  color: white;
+}
+
+.q-response-select .selected {
+  border: solid 4px black;
+  background-color: black;
+  color: white;
+}
+
+.q-response-select .selected:hover {
+  border: solid 4px black;
+  background-color: black;
+  color: white;
+}
+
+.q-response-select .checkmark {
+  position: absolute;
+  top: 18px;
+  right: 10px;
+  fill: white;
+}
+
+.form-block {
+  opacity: 0.4;
+  margin-bottom: 150px;
+}
+
+.block.active {
+  opacity: 1;
+}
+
+.block button {
+  display: block;
+}
+
+.block .element {
+  display: inline-block;
+}
+
+textarea {
+  resize: none;
+  box-sizing: border-box;
+  overflow: hidden;
+	padding: 5px;
+}
+
+.test {
+  height: 100%;
+  text-align: center;
+  margin-bottom: 1000px;
+}
+
+#head {
+  margin-top: 100px;
+  height: 90vh;
+  height: calc(var(--vh, 1vh) * 100);
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.ability-branch {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.ability-branch .q-select {
+  width: 100%;
+}
+
+.ability-branch li div {
+  display: inline-block;
+}
+
+.ability-branch .q-response-select {
+  text-align: left;
+}
+
+.ability-branch .input-select-choice {
+  width: 89%;
+  vertical-align: middle;
+}
+
+.ability-branch .level {
+  margin-bottom: 10px;
+  vertical-align: middle;
+  margin-right: 10px;
+  display: none;
+}
+
+.ability-branch.first .level {
+  display: inline-block;
+}
+
+.ability-branches > .title {
+  font-size: 1.3em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ability-branches > .title {
+  font-size: 1.3em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ability-branches {
+  margin-bottom: 30px;
+}
+
+.form-button {
+  background-color: black;
+  border: solid 2px black;
+  border-radius: 2px;
+  color: white;
+  padding: 5px 20px;
+}
+
+.logo {
+  font-size: 1.6em;
+  font-weight: 700;
+}
+
+img.logo {
+  width: 100px;
+  height: 100px;
+}
+
+.manifest .title {
+  font-size: 1.4em;
+  font-weight: 700;
+}
+
+.gn .title {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: white;
+}
+
+.manifest > div {
+  box-shadow: 2px 2px 2px rgb(220, 220, 220);
+}
+
+#next-gn {
+  width: 100vw;
+  margin: 0;
+  overflow: hidden;
+  background-image: radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
+  background: -moz-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #27364f), color-stop(50%, #112), color-stop(100%, #112));
+  background: -webkit-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
+  background: -o-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
+  background: -ms-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
+  filter: 'progid:DXImageTransform.Microsoft.gradient( startColorstr=' #27364f ', endColorstr=' #112 ',GradientType=1 )';
+  background-position: 50% 0%;
+  background-size: 150vmax 150vmax;
+  background-repeat: no-repeat;
+  background-color: #112;
+  color: #F0EDEE;
+}
+
+.spacer {
+    padding-top: 8rem;
+}
+
+.spacer-s {
+    padding-top: 3rem;
+}
+
+#next-gn .button-link {
+  background-color: #F0EDEE;
+  padding: 15px;
+  border-radius: 3px;
+  color: black;
+}
+
+#ynext-gn .button-link {
+  position: relative;
+  border: solid 3px white;
+  padding: 10px 0px 10px 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 50px;
+  max-width: 500px;
+}
+
+#ynext-gn .button-link:before {
+  content: " ";
+  position: absolute;
+  z-index: 0;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 2px solid white;
+}
+
+.history {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.history:nth-child(even) {
+  background-color: rgb(245, 245, 245);
+}
+
+.history:nth-child(odd) {
+  background-color: white;
+}
+
+#history .heading h2 {
+}

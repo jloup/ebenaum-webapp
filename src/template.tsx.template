@@ -1,0 +1,17 @@
+import * as React from 'react';
+
+interface TemplateProps {
+};
+
+export class Template extends React.Component<TemplateProps, any> {
+  constructor(props: TemplateProps) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+      </React.Fragment>
+    );
+  }
+}
