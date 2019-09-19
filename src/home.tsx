@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import * as App from './app';
+
 export class Home extends React.Component<any, any> {
   render() {
     return (
