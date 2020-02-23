@@ -2,33 +2,82 @@ import classnames from 'classnames';
 import * as React from 'react';
 
 import { InputLabelProps, InputLabel } from './input-label'; 
-
-class Checkmark extends React.Component<any, any> {
-  render() {
-    return (
-      <svg className='checkmark' width="16" height="13" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="nonzero" d="M14.293.293l1.414 1.414L5 12.414.293 7.707l1.414-1.414L5 9.586z"></path>
-      </svg>
-    );
-  }
-}
+import { FormBuilderBaseConfig, InputConfig, NextConfigCallback } from './form-builder-base-config'; 
+import { Checkmark } from './checkmark';
 
 export interface Choice {
   value: string;
   description?: string;
 };
 
+export class InputSelectValue {
+  indexes: number[];
+  values: string[];
+
+  constructor(indexes: number[], values: string[]) {
+    this.indexes = indexes;
+    this.values = values;
+  }
+
+  getValue = () :string => {
+    if (this.indexes.length == 0) {
+      return 'none';
+    } else {
+      return this.values[0];
+    }
+  }
+}
+
+export function BuildInputSelectValue(selected: number[], choices: Choice[]) :InputSelectValue {
+  return new InputSelectValue(selected,choices.filter((choice, index) => {
+    return selected.indexOf(index) !== -1;
+  }).map((choice) => {
+    return choice.value;
+  }));
+}
+
+export class InputSelectConfig extends FormBuilderBaseConfig {
+  _value: InputSelectValue;
+  _choices: Choice[];
+  _multi: boolean;
+
+  constructor(name: string, text: string, value: InputSelectValue, choices: Choice[], multi: boolean) {
+    super(name, text);
+    this._value = value;
+    this._choices = choices;
+    this._multi = multi;
+  }
+
+  onChangeHandler = (onNextConfig: NextConfigCallback): ((change: InputSelectValue) => void) => {
+    return (change: InputSelectValue) :void => {
+      onNextConfig(new InputSelectConfig(this.name, this.text, change, this._choices, this._multi));
+    }
+  }
+
+  build = (c: InputConfig) :JSX.Element => {
+    return <InputSelect
+      choices={this._choices}
+      selected={this._value.indexes}
+      name={this.name}
+      text={this.text}
+      multi={this._multi}
+      onChoice={this.onChangeHandler(c.onNextConfig)}
+    />;
+  }
+
+  value = () :InputSelectValue => {
+    return this._value;
+  }
+}
+
 interface InputSelectProps extends InputLabelProps {
   choices: Choice[];
   multi?: boolean;
   selected: number[];
-  onChoice(selected: number[]) :void;
+  onChoice(change: InputSelectValue) :void;
 };
 
-interface InputSelectState {
-};
-
-export class InputSelect extends React.Component<InputSelectProps, InputSelectState> {
+export class InputSelect extends React.Component<InputSelectProps, any> {
   constructor(props: InputSelectProps) {
     super(props);
   }
@@ -48,7 +97,11 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
       selected = [selected[1]];
     }
 
-    this.props.onChoice(selected);
+    this.props.onChoice(new InputSelectValue(selected, this.props.choices.filter((choice, index) => {
+      return selected.indexOf(index) !== -1;
+    }).map((choice) => {
+      return choice.value;
+    })));
   }
 
   render() {

@@ -1,25 +1,25 @@
 import classnames from 'classnames';
 import * as React from 'react';
 
-import { AbilitySelect, Level } from './input-ability';
+import { InputTrait, Level } from './input-trait';
 
-export interface AbilityBranch {
+export interface InputTraitBranchValue {
   title: string;
   key: string;
   levels: Level[];
   selected: number;
-  bonus?: number;
+  bonus: number;
 }; 
 
-interface AbilitiesBranchProps {
+interface InputTraitBranchProps {
   name: string;
-  branches: AbilityBranch[];
+  branches: InputTraitBranchValue[];
   onChoice(key: string, selected: number) :void;
   points: number;
 };
 
-export class AbilitiesBranch extends React.Component<AbilitiesBranchProps, any> {
-  constructor(props: AbilitiesBranchProps) {
+export class InputTraitBranch extends React.Component<InputTraitBranchProps, any> {
+  constructor(props: InputTraitBranchProps) {
     super(props);
   }
 
@@ -46,7 +46,7 @@ export class AbilitiesBranch extends React.Component<AbilitiesBranchProps, any> 
                 style={{width: width}}
               >
                 <div className='title'>{branch.title}</div>
-                <AbilitySelect
+                <InputTrait
                   levels={branch.levels}
                   selected={branch.selected}
                   bonus={branch.bonus}

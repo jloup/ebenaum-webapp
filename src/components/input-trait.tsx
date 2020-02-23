@@ -1,33 +1,14 @@
 import classnames from 'classnames';
 import * as React from 'react';
 
-class Checkmark extends React.Component<any, any> {
-  render() {
-    return (
-      <svg className='checkmark' width="16" height="13" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="nonzero" d="M14.293.293l1.414 1.414L5 12.414.293 7.707l1.414-1.414L5 9.586z"></path>
-      </svg>
-    );
-  }
-}
+import { Checkmark } from './checkmark';
 
 export interface Level {
   name: string;
   description?: string
 };
 
-interface AbilitySelectProps {
-  levels: Level[];
-  selected: number;
-  onChoice(selected: number) :void;
-  points: number;
-  bonus?: number;
-};
-
-interface AbilitySelectState {
-};
-
-function abilityLevel(index: number) :string {
+function levelString(index: number) :string {
   switch(index) {
     case 0:
       return '-2';
@@ -48,13 +29,21 @@ function abilityLevel(index: number) :string {
   }
 }
 
-export class AbilitySelect extends React.Component<AbilitySelectProps, AbilitySelectState> {
-  constructor(props: AbilitySelectProps) {
+interface InputTraitProps {
+  levels: Level[];
+  selected: number;
+  onChoice(selected: number) :void;
+  points: number;
+  bonus: number;
+};
+
+export class InputTrait extends React.Component<InputTraitProps, any> {
+  constructor(props: InputTraitProps) {
     super(props);
   }
 
   maxLevel = () :number => {
-    let modifier = 0
+    let modifier = 0;
     if (this.props.selected !== -1) {
       modifier = this.props.selected - 2;
     }
@@ -82,22 +71,20 @@ export class AbilitySelect extends React.Component<AbilitySelectProps, AbilitySe
 
   render() {
     const selected = this.props.selected + (this.props.bonus || 0);
-    const levels = this.props.levels.map((ability, index) => {
-      const level = index - 2;
+    const levels = this.props.levels.map((level, index) => {
+      const levelInt = index - 2;
       const checkmark = selected === index ? <Checkmark/> : null ;
-      const isActive = (level >= this.minLevel()) && (level <= this.maxLevel());
+      const isActive = (levelInt >= this.minLevel()) && (levelInt <= this.maxLevel());
       return (
-        <li 
-          key={index}
-        >
-          <div className='level'>{abilityLevel(index)}</div>
+        <li key={index}>
+          <div className='level'>{levelString(index)}</div>
           <div
             className={classnames('input-select-choice', { selected: selected === index, active: isActive, disabled: !isActive })}
             onClick={this.onClick.bind(this, index)}
           >
-            <div>{ability.name} {checkmark}</div>
-            <p className={classnames('description', { hidden: ability.description === undefined } )}>
-              {ability.description}
+            <div>{level.name} {checkmark}</div>
+            <p className={classnames('description', { hidden: level.description === undefined } )}>
+              {level.description}
             </p>
           </div>
         </li>

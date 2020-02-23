@@ -1,12 +1,52 @@
 import * as React from 'react';
 
+import { FormBuilderBaseConfig, InputConfig, NextConfigCallback } from './form-builder-base-config'; 
 import { InputLabelProps, InputLabel } from './input-label'; 
 
+export class InputTextConfig extends FormBuilderBaseConfig {
+  _value: InputTextValue;
+
+  constructor(name: string, text: string, value: InputTextValue) {
+    super(name, text);
+    this._value = value;
+  }
+
+  onChangeHandler = (onNextConfig: NextConfigCallback): ((change: InputTextValue) => void) => {
+    return (change: InputTextValue) :void => {
+      onNextConfig(new InputTextConfig(this.name, this.text, change));
+    }
+  }
+
+  build = (c: InputConfig) :JSX.Element => {
+    return <InputText
+      name={this.name}
+      text={this.text}
+      value={this._value}
+      onEnter={c.onEnter}
+      onFocus={c.onFocus}
+      isFocus={c.isFocus}
+      onChange={this.onChangeHandler(c.onNextConfig)}
+    />;
+  }
+
+  value = () :string => {
+    return this._value.text;
+  }
+}
+
+export class InputTextValue {
+  text: string;
+
+  constructor(text: string) {
+    this.text = text;
+  }
+}
+
 interface InputTextProps extends InputLabelProps {
-  onChange(text: string) :void;
+  onChange(change: InputTextValue) :void;
   onEnter() :void;
   onFocus() :void;
-  value: string;
+  value: InputTextValue;
   isFocus?: boolean
 };
 
@@ -32,7 +72,7 @@ export class InputText extends React.Component<InputTextProps, InputTextState> {
   }
 
   onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    this.props.onChange(e.currentTarget.value);
+    this.props.onChange(new InputTextValue(e.currentTarget.value));
   }
 
   componentDidUpdate(prevProps: InputTextProps, prevState: InputTextState) {
@@ -60,7 +100,7 @@ export class InputText extends React.Component<InputTextProps, InputTextState> {
           type='text'
           placeholder='Taper votre réponse…'
           onFocus={this.props.onFocus}
-          value={this.props.value}
+          value={this.props.value.text}
         />
       </React.Fragment>
     );

@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { AbilitiesBranch } from './ability-branch';
+import { InputTraitBranch } from './input-trait-branch';
 import { InputLabelProps, InputLabel } from './input-label'; 
+import { FormBuilderBaseConfig, InputConfig, NextConfigCallback } from './form-builder-base-config'; 
 
 export interface Traits {
   gear: number;
@@ -13,13 +14,6 @@ export interface Traits {
   charisma: number;
   will: number;
 }
-
-interface AbilitiesProps extends InputLabelProps {
-  points: number;
-  traits: Traits ;
-  traitsBonus: Traits ;
-  onAbilityChoice(key: string, index: number) :void;
-};
 
 export function emptyTraits() :Traits {
   return {
@@ -149,13 +143,74 @@ const data = [
   }
 ];
 
-export class Abilities extends React.Component<AbilitiesProps, any> {
-  constructor(props: AbilitiesProps) {
+export class InputTraitsValue {
+  traits: Traits;
+  points: number;
+
+  constructor(traits: Traits, points: number) {
+    this.traits = traits;
+    this.points = points;
+  }
+}
+
+export class InputTraitsConfig extends FormBuilderBaseConfig {
+  _value: Traits;
+  _points: number;
+  _bonus: Traits;
+
+  constructor(name: string, text: string, points: number, traits: Traits, bonus: Traits) {
+    super(name, text);
+    this._value = traits;
+    this._points = points;
+    this._bonus = bonus;
+  }
+
+  onChangeHandler = (onNextConfig: NextConfigCallback): ((change: InputTraitsValue) => void) => {
+    return (change: InputTraitsValue) :void => {
+      onNextConfig(new InputTraitsConfig(this.name, this.text, change.points, change.traits, this._bonus));
+    }
+  }
+
+  build = (c: InputConfig) :JSX.Element => {
+    return <InputTraits
+      name={this.name}
+      text={this.text}
+      points={this._points}
+      traitsBonus={this._bonus}
+      traits={this._value}
+      onAbilityChoice={this.onChangeHandler(c.onNextConfig)}
+    />;
+  }
+
+  value = () :InputTraitsValue => {
+    return new InputTraitsValue(this._value, this._points);
+  }
+}
+
+interface InputTraitsProps extends InputLabelProps {
+  points: number;
+  traits: Traits;
+  traitsBonus: Traits;
+  onAbilityChoice(change: InputTraitsValue) :void;
+};
+
+export class InputTraits extends React.Component<InputTraitsProps, any> {
+  constructor(props: InputTraitsProps) {
     super(props);
   }
 
-  onAbilityChoice = (key: string, index: number) => {
-    this.props.onAbilityChoice(key, index - 2);
+  onAbilityChoice = (branch: string, level: number) => {
+    level = level - 2;
+
+    let points = this.props.points;
+    const traits = this.props.traits;
+    const current = traits[branch];
+
+    traits[branch] = level
+
+    points = points + current - level;
+    
+    this.props.onAbilityChoice(new InputTraitsValue(traits, points));
   }
 
   render() {
@@ -165,7 +220,7 @@ export class Abilities extends React.Component<AbilitiesProps, any> {
       {
         data.map((mainAbility) => {
           return (
-            <AbilitiesBranch
+            <InputTraitBranch
               key={mainAbility.title}
               name={mainAbility.title}
               onChoice={this.onAbilityChoice}

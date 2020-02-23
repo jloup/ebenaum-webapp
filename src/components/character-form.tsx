@@ -1,8 +1,13 @@
 import * as React from 'react';
 
-import { Traits } from './abilities';
+import { Traits } from './input-traits';
 import { Camps, Occupations, Races } from './asset';
-import { AbilityConfig, AbilityState, FormBuilder, InputConfig, InputState, SelectConfig, SelectState, TextConfig, TextState } from './form-builder';
+import { FormBuilder } from './form-builder';
+import { InputTextConfig, InputTextValue } from './input-text';
+import { InputTraitsConfig, InputTraitsValue } from './input-traits';
+import { BuildInputSelectValue, InputSelectValue, InputSelectConfig } from './input-select';
+import { InputTextAreaConfig } from './input-textarea';
+import { FormBuilderElement } from './form-builder-base-config'; 
 
 interface CharacterFormProps {
   traitsPoints: number;
@@ -10,14 +15,14 @@ interface CharacterFormProps {
 
 interface CharacterFormState {
   index: number;
-
-  traits: Traits;
-  traitsPoints: number;
+  traits: InputTraitsValue;
   name: string;
   occupation: number;
   race: number;
-  camp: number;
+  camp: InputSelectValue;
   email: string;
+
+  comment: string;
 };
 
 function emptyTraits() :Traits {
@@ -52,13 +57,13 @@ export class CharacterForm extends React.Component<CharacterFormProps, Character
 
     this.state = {
       index: 0,
-      traits: emptyTraits(),
-      traitsPoints: this.props.traitsPoints,
+      traits: new InputTraitsValue(emptyTraits(), this.props.traitsPoints),
       name: '',
       email: '',
       occupation: -1,
       race: -1,
-      camp: -1,
+      camp: BuildInputSelectValue([], Camps),
+      comment: '',
     };
   }
 
@@ -66,46 +71,14 @@ export class CharacterForm extends React.Component<CharacterFormProps, Character
     console.log(this.form());
   }
 
-  onChange = (ref: string, value: InputState) :void => {
-    if (ref === 'name') {
-      const v = value as TextState;
 
-      this.setState({ name: v.value });
-    }
+  onChange = (ref: string, value: any) :void => {
+    const nextState = this.state;
 
-    if (ref === 'email') {
-      const v = value as TextState;
+    nextState[ref] = value;
+    console.log(ref, value);
 
-      this.setState({ email: v.value });
-    }
-
-    if (ref === 'race') {
-      const v = value as SelectState;
-
-      this.setState({ race: v.selected.length > 0 ? v.selected[0] : -1 })
-    }
-
-    if (ref === 'camp') {
-      const v = value as SelectState;
-
-      this.setState({ camp: v.selected.length > 0 ? v.selected[0] : -1 })
-    }
-
-    if (ref === 'occupation') {
-      const v = value as SelectState;
-
-      this.setState({ occupation: v.selected.length > 0 ? v.selected[0] : -1 })
-    }
-
-    if (ref === 'abilities') {
-      const v = value as AbilityState;
-      
-      this.setState({ traitsPoints: v.points, traits: v.traits })
-    }
-  }
-
-  onInputSelect = (index: number) :void => {
-    this.setState({ index: index });
+    this.setState(nextState);
   }
 
   computeTraitsBonus = () :Traits => {
@@ -115,7 +88,11 @@ export class CharacterForm extends React.Component<CharacterFormProps, Character
       traits.endurance += 1;
     }
 
-    return traits
+    return traits;
+  }
+
+  onFormSelect = (index: number)  :void => {
+    this.setState({ index: index });
   }
 
   form = () :any => {
@@ -123,20 +100,18 @@ export class CharacterForm extends React.Component<CharacterFormProps, Character
       name: this.state.name,
       email: this.state.email,
       race: this.state.race !== -1 ? Races[this.state.race].ref : 'none',
-      camp: this.state.camp !== -1 ? Camps[this.state.camp].ref : 'none',
+      camp: this.state.camp.getValue(),
       occupation: this.state.occupation !== -1 ? Occupations[this.state.occupation].ref : 'none',
-      abilities: addTraits(this.state.traits, this.computeTraitsBonus()),
+      abilities: addTraits(this.state.traits.traits, this.computeTraitsBonus()),
     };
   }
 
-  buildForm = () :InputConfig[] => {
+  buildForm = () :FormBuilderElement[] => {
     return [
-      new TextConfig('name', 'Quel est votre nom/prénom ?', this.state.name),
-      new TextConfig('email', 'Quel est votre email ?', this.state.email),
-      new SelectConfig('camp', 'Quel camp souhaitez-vous rejoindre ? ?', this.state.camp === -1 ? [] : [this.state.camp], Camps),
-      new SelectConfig('race', 'Quelle race de personnage voulez-vous jouer ?', this.state.race === -1 ? [] : [this.state.race], Races),
-      new SelectConfig('occupation', 'Quelle est l\'occupation de votre personnage ?', this.state.occupation === -1 ? [] : [this.state.occupation], Occupations),
-      new AbilityConfig('abilities', '', this.state.traitsPoints, this.state.traits, this.computeTraitsBonus()),
+      new InputTextConfig('name', 'Quel est votre nom/prénom ?', new InputTextValue(this.state.name)),
+      new InputTextConfig('email', 'Quel est votre email ?', new InputTextValue(this.state.email)),
+      new InputSelectConfig('camp', 'Quel camp souhaitez-vous rejoindre ? ?', this.state.camp, Camps, true),
+      new InputTraitsConfig('traits', 'Yo ??', this.state.traits.points, this.state.traits.traits, this.computeTraitsBonus()),
     ]; 
   }
 
@@ -144,12 +119,12 @@ export class CharacterForm extends React.Component<CharacterFormProps, Character
     return (
       <React.Fragment>
         <FormBuilder
-          onDone={this.onDone}
-          formElements={this.buildForm()}
-          onChange={this.onChange}
-          onInputSelect={this.onInputSelect}
           index={this.state.index}
-          isStarted={true}
+          onDone={this.onDone}
+          onFormSelect={this.onFormSelect}
+          formElements={this.buildForm()}
+          isStarted={false}
+          onChange={this.onChange}
         />
       </React.Fragment>
     );
