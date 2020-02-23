@@ -25,12 +25,6 @@ body {
   font-size: 1.2em;
 }
 
-@media (min-width: 768px) {
-  #stars {
-    padding-top: 50px;
-  }
-}
-
 #root {
   height: 100%;
 }
@@ -271,57 +265,12 @@ textarea {
   padding: 5px 20px;
 }
 
-.logo {
-  font-size: 1.6em;
-  font-weight: 700;
-}
-
-img.logo {
-  width: 100px;
-  height: 100px;
-}
-
-.manifest .title {
-  font-size: 1.4em;
-  font-weight: 700;
-}
-
-.gn .title {
-  font-size: 1.4em;
-  font-weight: 700;
-}
-
-#stars {
-  width: 100vw;
-  margin: 0;
-  overflow: hidden;
-  background-image: radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
-  background: -moz-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #27364f), color-stop(50%, #112), color-stop(100%, #112));
-  background: -webkit-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
-  background: -o-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
-  background: -ms-radial-gradient(center, ellipse cover, #27364f 0%, #112 50%, #112 100%);
-  filter: 'progid:DXImageTransform.Microsoft.gradient( startColorstr=' #27364f ', endColorstr=' #112 ',GradientType=1 )';
-  background-position: 50% 0%;
-  background-size: 150vmax 150vmax;
-  background-repeat: no-repeat;
-  background-color: #112;
-  color: #d4d4d4;
-}
-
 .spacer {
     padding-top: 8rem;
 }
 
 .spacer-s {
     padding-top: 3rem;
-}
-
-#next-gn .button-link {
-  background-color: #F0EDEE;
-  padding: 15px;
-  border-radius: 3px;
-  color: black;
 }
 
 .u-link {

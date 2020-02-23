@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { FormElement } from './form-element';
-import { Head } from './head';
 
 import { FormBuilderElement } from './form-builder-base-config'; 
 
@@ -70,7 +69,6 @@ export class FormBuilder extends React.Component<FormBuilderProps, any> {
   render() {
     return (
       <React.Fragment>
-      <Head showButton={!this.props.isStarted} onClick={this.onStart}/>
       <div className='test'>
         {
           this.props.formElements.map((formElement, index) => {

@@ -1,0 +1,3 @@
+[submodule "content-repo"]
+	path = content-repo
+	url = https://github.com/jloup/ebenaum-content.git

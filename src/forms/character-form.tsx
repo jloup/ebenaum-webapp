@@ -1,13 +1,12 @@
 import * as React from 'react';
 
-import { Traits } from './input-traits';
-import { Camps, Occupations, Races } from './asset';
-import { FormBuilder } from './form-builder';
-import { InputTextConfig, InputTextValue } from './input-text';
-import { InputTraitsConfig, InputTraitsValue } from './input-traits';
-import { BuildInputSelectValue, InputSelectValue, InputSelectConfig } from './input-select';
-import { InputTextAreaConfig } from './input-textarea';
-import { FormBuilderElement } from './form-builder-base-config'; 
+import { Traits } from '../components/input-traits';
+import { Camps, Occupations, Races } from '../components/asset';
+import { FormBuilder } from '../components/form-builder';
+import { InputTextConfig, InputTextValue } from '../components/input-text';
+import { InputTraitsConfig, InputTraitsValue } from '../components/input-traits';
+import { BuildInputSelectValue, InputSelectValue, InputSelectConfig } from '../components/input-select';
+import { FormBuilderElement } from '../components/form-builder-base-config'; 
 
 interface CharacterFormProps {
   traitsPoints: number;
@@ -76,7 +75,6 @@ export class CharacterForm extends React.Component<CharacterFormProps, Character
     const nextState = this.state;
 
     nextState[ref] = value;
-    console.log(ref, value);
 
     this.setState(nextState);
   }
